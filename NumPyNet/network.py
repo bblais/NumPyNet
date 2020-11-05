@@ -325,7 +325,7 @@ class Network(object):
     '''
 
     results = {func.__name__ : func(y_true, y_pred) for func in self.metrics}
-    print(' '.join(' {}: {:1.3f}'.format(k, v) for k, v in results.items()))
+    #print(' '.join(' {}: {:1.3f}'.format(k, v) for k, v in results.items()))
 
 
   def fit(self, X, y, max_iter=100, shuffle=True, verbose=True):
