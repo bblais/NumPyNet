@@ -14,6 +14,7 @@ import inspect
 import platform
 import numpy as np
 from time import time as now
+from tqdm import tqdm
 
 from NumPyNet.layers.activation_layer import Activation_layer
 from NumPyNet.layers.avgpool_layer import Avgpool_layer
@@ -338,7 +339,7 @@ class Network(object):
     batches = np.array_split(range(num_data), indices_or_sections=num_data // self.batch)
 
     with _redirect_stdout(verbose):
-      for _ in range(max_iter):
+      for _ in tqdm(range(max_iter)):
 
         start = now()
 

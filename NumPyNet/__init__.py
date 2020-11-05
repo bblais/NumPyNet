@@ -31,3 +31,4 @@ Model = Network
 
 # define FMATH
 ENABLE_FMATH = False
+print("Version ",__version__)

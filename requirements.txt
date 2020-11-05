@@ -4,3 +4,4 @@ pillow
 pytest
 enum34
 configparser
+tqdm
