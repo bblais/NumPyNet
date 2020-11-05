@@ -343,9 +343,9 @@ class Network(object):
 
         start = now()
 
-        print('Epoch {:d}/{:d}'.format(_ + 1, max_iter)) # flush=True)
+        #print('Epoch {:d}/{:d}'.format(_ + 1, max_iter)) # flush=True)
 
-        sys.stdout.flush() # compatibility with python 2.7
+        #sys.stdout.flush() # compatibility with python 2.7
 
         loss = 0.
         seen = 0
@@ -365,15 +365,15 @@ class Network(object):
           seen += len(idx)
 
           done = int(50 * (i + 1) / len(batches))
-          print('{}{:>3d}/{:<3d} |{}{}| ({:1.1f} sec/iter) loss: {:3.3f}'.format( CRLF, 
-                                                                                  seen,
-                                                                                  num_data,
-                                                                                 r'█' * done,
-                                                                                  '-' * (50 - done),
-                                                                                  now() - start,
-                                                                                  loss / seen
-                                                                                ), end='') #flush=True
-          sys.stdout.flush() # compatibility with pythonn 2.7
+          # print('{}{:>3d}/{:<3d} |{}{}| ({:1.1f} sec/iter) loss: {:3.3f}'.format( CRLF, 
+          #                                                                         seen,
+          #                                                                         num_data,
+          #                                                                        r'█' * done,
+          #                                                                         '-' * (50 - done),
+          #                                                                         now() - start,
+          #                                                                         loss / seen
+          #                                                                       ), end='') #flush=True
+          # sys.stdout.flush() # compatibility with pythonn 2.7
           start = now()
 
         if self.metrics is not None:
@@ -381,11 +381,11 @@ class Network(object):
           y_pred = self.predict(X, truth=None, verbose=False)
           self._evaluate_metrics(y, y_pred)
 
-        print('\n', end='') # flush=True)
-        sys.stdout.flush() # compatibility with pythonn 2.7
+        # print('\n', end='') # flush=True)
+        # sys.stdout.flush() # compatibility with pythonn 2.7
 
       end = now()
-      print('Training on {:d} epochs took {:1.1f} sec'.format(max_iter, end - begin))
+      # print('Training on {:d} epochs took {:1.1f} sec'.format(max_iter, end - begin))
 
 
   def fit_generator(self, Xy_generator, max_iter=100):
