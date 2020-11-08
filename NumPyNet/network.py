@@ -333,59 +333,44 @@ class Network(object):
     '''
 
     num_data = len(X)
-    begin = now()
     self._fitted = True
 
     batches = np.array_split(range(num_data), indices_or_sections=num_data // self.batch)
+    lengths=[len(b) for b in batches]
+    if not all([L==self.batch for L in lengths]):
+        print("unequal batch sizes...adjusting.")
+        
+        for i,b in enumerate(batches):
+            np.random.shuffle(b)
+            batches[i]=sorted(b[:self.batch])
 
-    with _redirect_stdout(verbose):
-      for _ in tqdm(range(max_iter)):
+    for _ in tqdm(range(max_iter)):
 
-        start = now()
+      loss = 0.
+      seen = 0
 
-        #print('Epoch {:d}/{:d}'.format(_ + 1, max_iter)) # flush=True)
+      if shuffle:
+        np.random.shuffle(batches)
 
-        #sys.stdout.flush() # compatibility with python 2.7
+      for i, idx in enumerate(batches):
 
-        loss = 0.
-        seen = 0
+        _input = X[idx, ...]
+        _truth = y[idx, ...]
 
-        if shuffle:
-          np.random.shuffle(batches)
+        assert(len(_input)==self.batch)
 
-        for i, idx in enumerate(batches):
+        junk = self._forward(X=_input, truth=_truth, trainable=True)
+        self._backward(X=_input, trainable=True)
 
-          _input = X[idx, ...]
-          _truth = y[idx, ...]
+        loss += self._get_loss()
+        seen += len(idx)
 
-          _ = self._forward(X=_input, truth=_truth, trainable=True)
-          self._backward(X=_input, trainable=True)
 
-          loss += self._get_loss()
-          seen += len(idx)
+      if self.metrics is not None:
 
-          done = int(50 * (i + 1) / len(batches))
-          # print('{}{:>3d}/{:<3d} |{}{}| ({:1.1f} sec/iter) loss: {:3.3f}'.format( CRLF, 
-          #                                                                         seen,
-          #                                                                         num_data,
-          #                                                                        r'█' * done,
-          #                                                                         '-' * (50 - done),
-          #                                                                         now() - start,
-          #                                                                         loss / seen
-          #                                                                       ), end='') #flush=True
-          # sys.stdout.flush() # compatibility with pythonn 2.7
-          start = now()
+        y_pred = self.predict(X, truth=None, verbose=False)
+        self._evaluate_metrics(y, y_pred)
 
-        if self.metrics is not None:
-
-          y_pred = self.predict(X, truth=None, verbose=False)
-          self._evaluate_metrics(y, y_pred)
-
-        # print('\n', end='') # flush=True)
-        # sys.stdout.flush() # compatibility with pythonn 2.7
-
-      end = now()
-      # print('Training on {:d} epochs took {:1.1f} sec'.format(max_iter, end - begin))
 
 
   def fit_generator(self, Xy_generator, max_iter=100):
@@ -422,7 +407,7 @@ class Network(object):
     _truth = None
 
     batches = np.array_split(range(num_data), indices_or_sections=num_data // self.batch)
-
+    
     begin = now()
     start = begin
 
