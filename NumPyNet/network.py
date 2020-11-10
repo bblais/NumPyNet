@@ -430,23 +430,23 @@ class Network(object):
         seen += len(idx)
 
         done = int(50 * (i + 1) / len(batches))
-        print('{}{:>3d}/{:<3d} |{}{}| ({:1.1f} sec/iter) loss: {:3.3f}'.format( CRLF, 
-                                                                                seen,
-                                                                                num_data,
-                                                                               r'█' * done,
-                                                                                '-' * (50 - done),
-                                                                                now() - start,
-                                                                                loss / seen
-                                                                              ), end='') # flush=True,
-        sys.stdout.flush() # compatibility with pythonn 2.7
+        # print('{}{:>3d}/{:<3d} |{}{}| ({:1.1f} sec/iter) loss: {:3.3f}'.format( CRLF, 
+        #                                                                         seen,
+        #                                                                         num_data,
+        #                                                                        r'█' * done,
+        #                                                                         '-' * (50 - done),
+        #                                                                         now() - start,
+        #                                                                         loss / seen
+        #                                                                       ), end='') # flush=True,
+        # sys.stdout.flush() # compatibility with pythonn 2.7
         start = now()
 
-      print('\n', end='') #flush=True)
-      sys.stdout.flush() # compatibility with pythonn 2.7
+      # print('\n', end='') #flush=True)
+      # sys.stdout.flush() # compatibility with pythonn 2.7
 
 
       end = now()
-      print('Prediction on {:d} samples took {:1.1f} sec'.format(num_data, end - begin))
+      # print('Prediction on {:d} samples took {:1.1f} sec'.format(num_data, end - begin))
 
     return np.concatenate(output)
 
