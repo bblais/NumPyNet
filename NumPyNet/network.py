@@ -406,6 +406,7 @@ class Network(object):
     num_data = len(X)
     _truth = None
 
+
     batches = np.array_split(range(num_data), indices_or_sections=num_data // self.batch)
     
     begin = now()
