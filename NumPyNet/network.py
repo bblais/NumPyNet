@@ -344,7 +344,7 @@ class Network(object):
             np.random.shuffle(b)
             batches[i]=sorted(b[:self.batch])
 
-    for _ in tqdm(range(max_iter)):
+    for _ in tqdm(range(max_iter),disable=not verbose):
 
       loss = 0.
       seen = 0
